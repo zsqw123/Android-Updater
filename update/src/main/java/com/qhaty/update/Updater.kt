@@ -39,6 +39,7 @@ class Updater(mContext: Application, mUrl: String, mCallback: (Update, () -> Uni
                     checkUpdate()
                     return@launch
                 }
+                SPCenter.lastRemindTime(Date().time)
                 val body = resp.body()
                 if (resp.isSuccessful && body != null) {
                     if (versionCode == body.versionCode) return@launch

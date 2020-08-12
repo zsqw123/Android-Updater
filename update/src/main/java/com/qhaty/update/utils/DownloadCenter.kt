@@ -14,9 +14,7 @@ object DownLoadCenter {
 
     private val downloadManager: DownloadManager by lazy { Updater.context!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager }
     private val appUpdateReceiver: AppUpdateReceiver by lazy { AppUpdateReceiver() }
-    var onDownloadComplete: ((File) -> Unit)? = {
-        Updater.context!!.openApkByFilePath(it)
-    }
+    var onDownloadComplete: ((File) -> Unit)? = { Updater.context!!.openApkByFilePath(it) }
 
     //更新apk Wifi&Mobile
     fun addRequest(apkUrl: String, fileName: String?, isMobileMode: Boolean = false) {
@@ -79,8 +77,7 @@ object DownLoadCenter {
         query.setFilterById(id)
         val cursor = downloadManager.query(query)
         while (cursor.moveToNext()) {
-            filePath = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-                ?: ""
+            filePath = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)) ?: ""
         }
         cursor.close()
         return filePath

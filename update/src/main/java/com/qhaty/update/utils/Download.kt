@@ -14,7 +14,6 @@ import java.io.File
 fun Context.update(update: Update) {
     val fileName = "wallpaper_v${update.versionName}.apk"
     val file = File(getExternalFilesDir("update"), fileName)
-
     val taskId = SPCenter.getDownloadTaskId()
     logd("==============")
     logd("taskID=$taskId")
@@ -48,20 +47,25 @@ fun Context.update(update: Update) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@update, R.string.start_download, Toast.LENGTH_SHORT).show()
                 }
-                DownLoadCenter.addRequest(update.apkFile, fileName)
-            }
-        }
-    }
-    NetObserve.wifiConnected.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
-        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (!file.isFileExist() && UpdateOptions.autoUpdateWifi) {
-                GlobalScope.launch(Dispatchers.IO) {
-                    DownLoadCenter.onDownloadComplete = null
+                withContext(Dispatchers.IO) {
                     DownLoadCenter.addRequest(update.apkFile, fileName)
                 }
             }
         }
-    })
+    }
+    if (UpdateOptions.autoUpdateWifi){
+        NetObserve.wifiConnected.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+                if (!file.isFileExist()) {
+                    GlobalScope.launch(Dispatchers.IO) {
+                        DownLoadCenter.onDownloadComplete = null
+                        DownLoadCenter.addRequest(update.apkFile, fileName)
+                    }
+                }
+            }
+        })
+    }
+
 }
 
 fun File.isFileExist(): Boolean {
