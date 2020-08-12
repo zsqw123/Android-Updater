@@ -36,7 +36,7 @@ repositories {
 | application | 传入Application |
 | url | **类型:String** 检测更新json所在的目录url,若json文件位置为 <http://qq.com/apk/update.json> 则此处应为 <http://qq.com/apk> |
 | update | **类型:Update** update参数 |
-| callback | **类型() -> Unit** 接收到update时的回调 |
+| callback | **类型() -> Unit** 接收到update时的回调,无论是否已经有下载缓存都会调用callback方法,若调用callback方法要对界面做出更新, 请注意外层使用runOnUiThread方法 |
 
 ### 后端配置
 
