@@ -7,6 +7,8 @@
 
 ### 依赖
 
+[![Download](https://api.bintray.com/packages/qhaty/updater/updater/images/download.svg)](https://bintray.com/qhaty/updater/updater/_latestVersion)
+
 ```gradle
 dependencies {
     implementation 'com.qhaty:update:1.0.1'
