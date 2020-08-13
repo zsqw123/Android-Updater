@@ -34,13 +34,13 @@ repositories {
 | 参数 | 描述 |
 | - | - |
 | application | 传入Application |
-| url | **类型:String** 检测更新json所在的目录url,若json文件位置为 <http://qq.com/apk/update.json> 则此处应为 <http://qq.com/apk> |
+| url | **类型:String** 检测更新json的url,如 <http://qq.com/apk/update.json> |
 | update | **类型:Update** update参数 |
 | callback | **类型() -> Unit** 接收到update时的回调,无论是否已经有下载缓存都会调用callback方法,若调用callback方法要对界面做出更新, 请注意外层使用runOnUiThread方法 |
 
 ### 后端配置
 
-json格式,文件名为update.json
+json格式
 | 参数 | 描述 | 对应Update对象的属性 |
 | - | - | - |
 | versionCode | Int | versionCode |
@@ -56,7 +56,7 @@ json格式,文件名为update.json
 // 以下为默认值
 object UpdateOptions {
     var autoUpdateWifi = false // WiFi下预加载
-    var detectPeriod = 0L // 检测更新间隔 0L则每次启动APP均提醒
+    var detectPeriod = 0L // 检测更新间隔 0L则每次启动APP均提醒 方式:Date().time
     var enableOnDebug = true // DEBUG模式允许检测更新
     var customProviderAuth: String? = null // 自定义fileProvider 默认为${packageName}.provider
     var autoDeleteOldApk = true // 自动删除旧安装包

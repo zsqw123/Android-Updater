@@ -34,8 +34,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.1'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     def moshi = "1.9.3"
     implementation "com.squareup.moshi:moshi:$moshi"
@@ -52,7 +50,7 @@ def gitUrl = 'https://github.com/zsqw123/Android-Updater.git'   //Git仓库的�
 // 唯一包名，比如implementation 'com.davis.ui.pulltorefresh:pulltorefresh:2.1.0'中的com.davis.ui.pulltorefresh就是这里配置的。
 group = "com.qhaty"//包名,可以自定义,写aa.bb.cc都可以
 //项目引用的版本号，比如implementation 'com.davis.ui.pulltorefresh:pulltorefresh:2.1.0'中的2.1.0就是这里配置的。
-version = "1.0.0"//发布aar的库版本
+version = "1.0.1"//发布aar的库版本
 
 install {
     repositories.mavenInstaller {

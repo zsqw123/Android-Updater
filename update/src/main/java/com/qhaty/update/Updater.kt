@@ -30,21 +30,23 @@ class Updater(mContext: Application, mUrl: String, mCallback: (Update, () -> Uni
         fun checkUpdate() {
             if (UpdateOptions.detectPeriod != 0L && Date().time - SPCenter.lastRemindTime() < UpdateOptions.detectPeriod) return
             GlobalScope.launch(Dispatchers.IO) {
+                logd("开始检测更新111")
                 if (!UpdateOptions.enableOnDebug && BuildConfig.DEBUG) return@launch
                 logd("开始检测更新")
-                val resp = creatUpdateService()?.getUpdate()
-                if (resp == null) {
-                    delay(20000)
-                    logd("开始再次检测更新")
-                    checkUpdate()
-                    return@launch
-                }
-                SPCenter.lastRemindTime(Date().time)
-                val body = resp.body()
-                if (resp.isSuccessful && body != null) {
-                    if (versionCode == body.versionCode) return@launch
-                    context!!.update(body)
-                }
+//                val resp = creatUpdateService()?.getUpdate()
+//                if (resp == null) {
+//                    delay(20000)
+//                    logd("开始再次检测更新")
+//                    checkUpdate()
+//                    return@launch
+//                }
+//                SPCenter.lastRemindTime(Date().time)
+//                val body = resp.body()
+//                if (resp.isSuccessful && body != null) {
+//                    if (versionCode == body.versionCode) return@launch
+//                    context!!.update(body)
+//                }
+                updateRequest(url!!)?.let { context!!.update(it) }
             }
         }
     }
