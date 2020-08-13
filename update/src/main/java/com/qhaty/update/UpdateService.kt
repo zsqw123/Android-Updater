@@ -1,10 +1,12 @@
 package com.qhaty.update
 
 import android.util.Log
+import com.qhaty.update.utils.logd
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -44,7 +46,12 @@ suspend fun updateRequest(url: String): Update? {
                 .build()
             val request = Request.Builder().url(url).build()
             val response = client.newCall(request).execute()
-            if (!response.isSuccessful || response.body == null) return@withContext null
+            if (!response.isSuccessful || response.body == null) {
+                delay(20000)
+                logd("开始再次检测更新")
+                updateRequest(url)
+                return@withContext null
+            }
             val moshi = Moshi.Builder().build()
             return@withContext moshi.adapter(Update::class.java).fromJson(response.body!!.string())
         } catch (e: Exception) {
