@@ -1,7 +1,9 @@
 # Android Updater
 
-快捷的Android更新检测实现  
-***注意！*** **此开源库目前正处于新手阶段,可能存在部分bug,建议仅供学习使用**
+[![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+
+快捷的Android更新检测实现，支持Android Q  
+***注意！*** **此开源库目前正处于测试阶段,API随时有可能发生变化,并可能存在部分bug,建议仅供学习使用**
 
 ## 使用
 
@@ -39,6 +41,30 @@ repositories {
 | url | **类型:String** 检测更新json的url,如 <http://qq.com/apk/update.json> |
 | update | **类型:Update** update参数 |
 | callback | **类型() -> Unit** 接收到update时的回调,无论是否已经有下载缓存都会调用callback方法,若调用callback方法要对界面做出更新, 请注意外层使用runOnUiThread方法 |
+
+适配Android7.0+:在manifest中修改或添加
+
+```xml
+<provider
+        android:name="androidx.core.content.FileProvider"
+        android:authorities="${applicationId}.provider"
+        android:exported="false"
+        android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths" />
+ </provider>
+```
+
+resource文件```@xml/file_paths```修改或添加如下配置
+
+```xml
+<paths>
+    <external-files-path
+        name="AppUpdate"
+        path="update" />
+</paths>
+```
 
 ### 后端配置
 
