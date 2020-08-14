@@ -33,7 +33,9 @@ class Updater(mContext: Application, mUrl: String, mCallback: (Update, () -> Uni
                 logd("开始检测更新111")
                 if (!UpdateOptions.enableOnDebug && BuildConfig.DEBUG) return@launch
                 logd("开始检测更新")
-                updateRequest(url!!)?.let { context!!.update(it) }
+                updateRequest(url!!)?.let {
+                    if (versionCode >= it.versionCode) context!!.update(it)
+                }
             }
         }
     }
