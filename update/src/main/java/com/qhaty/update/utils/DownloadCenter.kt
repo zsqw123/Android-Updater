@@ -18,6 +18,7 @@ object DownLoadCenter {
 
     //更新apk Wifi&Mobile
     fun addRequest(apkUrl: String, fileName: String?, isMobileMode: Boolean = false) {
+        logd("start download request")
         bindReceiver() //绑定广播接收者
         val uri = Uri.parse(apkUrl)
         logd("url=$apkUrl")
@@ -30,16 +31,18 @@ object DownLoadCenter {
             setDescription(Updater.context!!.packageName)
             setAllowedOverRoaming(false)
             setVisibleInDownloadsUi(true)
-            //设置文件存放目录
             setDestinationInExternalFilesDir(Updater.context!!, "update", fileName)
         }
 
         try {
+            logd("create download floder")
             if (UpdateOptions.autoDeleteOldApk) {
                 Updater.context!!.getExternalFilesDir("update")?.delete()
                 Updater.context!!.getExternalFilesDir("update")?.mkdirs()
             }
+            logd("start download task")
             val id = downloadManager.enqueue(request)
+            logd("download task id $id")
             //存入到share里
             SPCenter.setDownloadTaskId(id)
         } catch (e: Exception) {
@@ -104,24 +107,6 @@ object DownLoadCenter {
             e.printStackTrace()
         }
     }
-
-    //通过下载id 找到对应的文件地址
-    @Deprecated("查询下载任务的状态")
-    private fun queryDownTaskById(id: Long): String? {
-        var filePath: String? = null
-        val query = DownloadManager.Query()
-
-        query.setFilterById(id)
-        val cursor = downloadManager.query(query)
-
-        while (cursor.moveToNext()) {
-            val address = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))
-            filePath = address
-        }
-        cursor.close()
-        return filePath
-    }
-
 
     //绑定广播接收者
     private fun bindReceiver() {

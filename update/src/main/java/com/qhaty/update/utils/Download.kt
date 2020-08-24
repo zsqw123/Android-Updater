@@ -47,13 +47,11 @@ fun Context.update(update: Update) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@update, R.string.start_download, Toast.LENGTH_SHORT).show()
                 }
-                withContext(Dispatchers.IO) {
-                    DownLoadCenter.addRequest(update.apkFile, fileName)
-                }
+                DownLoadCenter.addRequest(update.apkFile, fileName)
             }
         }
     }
-    if (UpdateOptions.autoUpdateWifi){
+    if (UpdateOptions.autoUpdateWifi) {
         NetObserve.wifiConnected.addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 if (!file.isFileExist()) {

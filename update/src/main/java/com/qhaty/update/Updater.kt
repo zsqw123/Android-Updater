@@ -34,7 +34,7 @@ class Updater(mContext: Application, mUrl: String, mCallback: (Update, () -> Uni
                 if (!UpdateOptions.enableOnDebug && BuildConfig.DEBUG) return@launch
                 logd("开始检测更新")
                 updateRequest(url!!)?.let {
-                    if (versionCode >= it.versionCode) context!!.update(it)
+                    if (versionCode < it.versionCode) context!!.update(it)
                 }
             }
         }

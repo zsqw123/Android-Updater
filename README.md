@@ -98,3 +98,11 @@ UpdateOptions.enableOnDebug = false
 ```
 
 也可以使用kotlin apply之类的方法进行操作
+
+### 其他
+
+Kotlin方法:  
+
+```kotlin
+Activity.startMarket() // 打开应用市场的应用详情界面
+```
