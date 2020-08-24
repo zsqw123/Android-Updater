@@ -2,8 +2,7 @@
 
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 
-快捷的Android更新检测实现，支持Android Q  
-***注意！*** **此开源库目前正处于测试阶段,API随时有可能发生变化,并可能存在部分bug,建议仅供学习使用**
+快捷的Android更新检测实现
 
 ## 使用
 
@@ -13,7 +12,7 @@
 
 ```gradle
 dependencies {
-    implementation 'com.qhaty:update:1.0.2'
+    implementation 'com.qhaty:update:1.0.3'
 }
 ```
 
