@@ -6,6 +6,8 @@
 
 ## 使用
 
+**请勿使用(Dont use it, full of bugs)**
+
 ### 依赖
 
 [![Download](https://api.bintray.com/packages/qhaty/updater/updater/images/download.svg)](https://bintray.com/qhaty/updater/updater/_latestVersion)
