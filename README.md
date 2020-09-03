@@ -12,7 +12,7 @@
 
 ```gradle
 dependencies {
-    implementation 'com.qhaty:update:1.0.3'
+    implementation 'com.qhaty:update:1.0.4'
 }
 ```
 

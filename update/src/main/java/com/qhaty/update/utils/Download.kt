@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-fun Context.update(update: Update) {
+suspend fun Context.update(update: Update) {
     val fileName = "wallpaper_v${update.versionName}.apk"
     val file = File(getExternalFilesDir("update"), fileName)
     val taskId = SPCenter.getDownloadTaskId()
@@ -23,8 +23,10 @@ fun Context.update(update: Update) {
             DownLoadCenter.isDownTaskSuccess(taskId) -> {
                 logd("任务已经下载完成")
                 //状态：完成
-                Updater.callback?.invoke(update) {
-                    openApkByFilePath(file)
+                withContext(Dispatchers.Main) {
+                    Updater.callback?.invoke(update) {
+                        openApkByFilePath(file)
+                    }
                 }
             }
             DownLoadCenter.isDownTaskPause(taskId) -> {
@@ -36,18 +38,22 @@ fun Context.update(update: Update) {
             DownLoadCenter.isDownTaskProcessing(taskId) -> {
                 logd("任务正在执行当中")
             }
-            else -> Updater.callback?.invoke(update) {
-                openApkByFilePath(file)
+            else -> withContext(Dispatchers.Main) {
+                Updater.callback?.invoke(update) {
+                    openApkByFilePath(file)
+                }
             }
         }
     } else {
         logd("开始下载回调")
-        Updater.callback?.invoke(update) {
-            GlobalScope.launch(Dispatchers.IO) {
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@update, R.string.start_download, Toast.LENGTH_SHORT).show()
+        withContext(Dispatchers.Main) {
+            Updater.callback?.invoke(update) {
+                GlobalScope.launch(Dispatchers.IO) {
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@update, R.string.start_download, Toast.LENGTH_SHORT).show()
+                    }
+                    DownLoadCenter.addRequest(update.apkFile, fileName)
                 }
-                DownLoadCenter.addRequest(update.apkFile, fileName)
             }
         }
     }

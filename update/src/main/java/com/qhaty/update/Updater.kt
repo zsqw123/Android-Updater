@@ -7,7 +7,6 @@ import com.qhaty.update.utils.logd
 import com.qhaty.update.utils.update
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -30,7 +29,7 @@ class Updater(mContext: Application, mUrl: String, mCallback: (Update, () -> Uni
         fun checkUpdate() {
             if (UpdateOptions.detectPeriod != 0L && Date().time - SPCenter.lastRemindTime() < UpdateOptions.detectPeriod) return
             GlobalScope.launch(Dispatchers.IO) {
-                logd("开始检测更新111")
+                logd("尝试检测更新")
                 if (!UpdateOptions.enableOnDebug && BuildConfig.DEBUG) return@launch
                 logd("开始检测更新")
                 updateRequest(url!!)?.let {
