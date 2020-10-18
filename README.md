@@ -6,7 +6,7 @@
 
 ## 使用
 
-**请勿使用(Dont use it, full of bugs)**
+**请勿使用(Dont use it, full of bugs),若要使用，请自行复制文件**
 
 ### 依赖
 
