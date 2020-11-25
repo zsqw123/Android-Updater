@@ -1,0 +1,86 @@
+//How to use"
+//1.Add plugin com.jfrog.bintray, follow https://plugins.gradle.org/plugin/com.jfrog.bintray;
+//2.apply from: "../bintrayIntegrated.gradle";
+//3.reedit project.ext {} or just leave it default;
+
+apply plugin: 'maven-publish'
+apply from: '../bintray/gradle-mavenizer.gradle'
+
+project.ext {
+    bintrayUser = "halohoop"
+    bintray_apikey = ""
+    groupId = "com.halohoop"
+    artifactId = project.name
+    version = "0.0.3"
+    javadocDir = "src/main/java"
+    sourceDir = "src"
+
+    bintrayOverride = true
+    bintrayPublish = true
+
+    bintrayPkgRepo = "maven"
+    bintrayPkgName = project.name
+    bintrayPkgUserOrg = project.ext.bintrayUser
+    bintrayPkgLicenses = ['Apache-2.0']
+    bintrayPkgVcsUrl = "github.com/${project.ext.bintrayUser}/${project.ext.bintrayPkgName}.git"
+    bintrayPkgIssueTrackerUrl = "github.com/${project.ext.bintrayUser}/${project.ext.bintrayPkgName}/issue"
+
+    // bintrayPkgVersionName = project.ext.version
+    bintrayPkgVersionDesc = "${project.ext.bintrayPkgName} ${project.ext.version} final"
+    bintrayPkgVersionReleased = new Date()
+    // bintrayPkgVersionVcsTag = project.ext.bintrayPkgVersionName
+    // attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+}
+
+project.afterEvaluate {
+    def artifactMain = isAndroidProject() ? bundleReleaseAar : jar
+    def artifactSource = isAndroidProject() ? androidSourcesJar : sourcesJar
+    def artifactJavadoc = isAndroidProject() ? androidJavadocsJar : javadocJar
+
+    bintray {
+        user = project.ext.bintrayUser
+        //./gradlew -PapiKey="blablablablablablabla"
+        key = project.ext.bintray_apikey
+        override project.ext.bintrayOverride
+        publish project.ext.bintrayPublish
+        pkg {
+            repo = project.ext.bintrayPkgRepo
+            name = project.ext.bintrayPkgName
+            userOrg = project.ext.bintrayPkgUserOrg
+            licenses = project.ext.bintrayPkgLicenses
+            vcsUrl = project.ext.bintrayPkgVcsUrl
+            issueTrackerUrl = project.ext.bintrayPkgIssueTrackerUrl
+            version {
+                name = project.ext.version
+                desc = project.ext.bintrayPkgVersionDesc
+                released = project.ext.bintrayPkgVersionReleased
+                vcsTag = project.ext.version
+                //            attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+            }
+        }
+        //https://github.com/bintray/bintray-examples/tree/master/gradle-bintray-plugin-examples/publications-example
+        publications = ['MyPublication']
+    }
+
+    publishing {
+        publications {
+            MyPublication(MavenPublication) {
+                artifact artifactMain
+                artifact artifactSource
+                artifact artifactJavadoc
+                //            artifact "${buildDir}/libs/lib-simpleloginet-javadoc.jar"//文件的话不能够直接几个不同后缀名的一起上传
+                //            artifact "${buildDir}/libs/lib-simpleloginet-sources.jar"//文件的话不能够直接几个不同后缀名的一起上传
+                // artifact(sourcesJar)
+                // artifact(javadocJar)
+                groupId project.ext.groupId
+                artifactId project.ext.artifactId
+                version project.ext.version
+            }
+            // repositories {
+            //     maven {
+            //         url "$buildDir/repo"
+            //     }
+            // }
+        }
+    }
+}

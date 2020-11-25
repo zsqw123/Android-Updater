@@ -6,19 +6,17 @@
 
 ## 使用
 
-**请勿使用(Dont use it, full of bugs)**
-
 ### 依赖
 
 [![Download](https://api.bintray.com/packages/qhaty/updater/updater/images/download.svg)](https://bintray.com/qhaty/updater/updater/_latestVersion)
 
 ```gradle
 dependencies {
-    implementation 'com.qhaty:update:1.0.4'
+    implementation 'com.qhaty:update:1.0.11'
 }
 ```
 
-若未找到依赖请尝试在项目根目录添加
+若未找到依赖请尝试在项目根build.gradle添加
 
 ```gradle
 repositories {
@@ -41,7 +39,7 @@ repositories {
 | application | 传入Application |
 | url | **类型:String** 检测更新json的url,如 <http://qq.com/apk/update.json> |
 | update | **类型:Update** update参数 |
-| callback | **类型() -> Unit** 接收到update时的回调,无论是否已经有下载缓存都会调用callback方法,若调用callback方法要对界面做出更新, 请注意外层使用runOnUiThread方法 |
+| callback | **类型() -> Unit** 接收到update时的回调,无论是否已经有下载缓存都会调用callback方法 |
 
 适配Android7.0+:在manifest中修改或添加
 
