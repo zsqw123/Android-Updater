@@ -6,6 +6,8 @@
 
 ## 使用
 
+需要打开databinding!!(以后可以不需要打开databinding！！！ 现在懒，后面慢慢做!!!)  
+
 ### 依赖
 
 [![Download](https://api.bintray.com/packages/qhaty/updater/updater/images/download.svg)](https://bintray.com/qhaty/updater/updater/_latestVersion)
